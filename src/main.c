@@ -1,19 +1,24 @@
 #include <stdio.h>
 #include "raylib.h"
 #include "gameFunctions.h"
+#include "player.h"
+
+#define FPS 60
 
 int main(){
     const int screenWidth = 800;
     const int screenHeight = 450;
 
+    Player player = {0};
+
     InitWindow(screenWidth, screenHeight, "CSnake");
 
-    SetTargetFPS(60);
+    SetTargetFPS(FPS);
 
-    InitGame();
-    
+    InitGame(&player);
+
     while (!WindowShouldClose()){
-        UpdateDrawFrame();    
+        UpdateDrawFrame(&player);    
     }
 
     UnloadGame();

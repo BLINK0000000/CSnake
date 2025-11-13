@@ -1,7 +1,11 @@
+// gameFunctions.h
+// Header declaring functions related to core game loop
 #pragma once
 
-void UpdateDrawFrame();
-void UpdateGame();
-void DrawGame();
+#include "player.h"
+
+void UpdateDrawFrame(Player* player);
+void UpdateGame(Player* player);
+void DrawGame(Player* player);
 void UnloadGame();
-void InitGame();
+void InitGame(Player* player);
