@@ -9,7 +9,7 @@ void UpdateDrawFrame(Player* player){
 }
 
 void UpdateGame(Player* player){
-
+    PlayerMove(player);
 }
 
 void DrawGame(Player* player){

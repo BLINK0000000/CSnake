@@ -3,8 +3,8 @@
 #include "gameFunctions.h"
 #include "player.h"
 
-#define FPS 60
-
+#define FPS 180
+//TODO: Need to add game over state when colliding with screen
 int main(){
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -12,6 +12,8 @@ int main(){
     Player player = {0};
 
     InitWindow(screenWidth, screenHeight, "CSnake");
+
+    Rectangle screenRect = (Rectangle){0, 0, GetScreenWidth(), GetScreenHeight()};
 
     SetTargetFPS(FPS);
 

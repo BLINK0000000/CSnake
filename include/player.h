@@ -14,3 +14,4 @@ typedef struct Player{
 
 void InitPlayer(Player* player);
 void PlayerMove(Player* player);
+bool CollisionWithScreenPlayer(Player* player);
