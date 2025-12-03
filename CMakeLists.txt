@@ -10,6 +10,7 @@ target_sources(CSnake
         src/main.c
         src/gameFunctions.c
         src/player.c
+        src/fruit.c
     
     PUBLIC
         FILE_SET HEADERS
@@ -18,6 +19,7 @@ target_sources(CSnake
         FILES
             include/gameFunctions.h
             include/player.h
+            include/fruit.h
 )
 
 target_link_libraries(CSnake

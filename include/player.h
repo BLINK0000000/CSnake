@@ -3,6 +3,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "fruit.h"
 
 typedef struct Player{
     Vector2 position;
@@ -13,5 +14,6 @@ typedef struct Player{
 }Player;
 
 void InitPlayer(Player* player);
-void PlayerMove(Player* player);
-bool CollisionWithScreenPlayer(Player* player);
+void PlayerMove(Player* player, Fruit* fruit);
+bool CollisionScreenPlayer(Player* player);
+void growPlayer(Player* player);

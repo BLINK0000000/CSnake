@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "raylib.h"
 #include "player.h"
+#include "fruit.h"
 
 #define PLAYER_SPEED 250
 
@@ -11,7 +12,7 @@ void InitPlayer(Player* player){
     player->score = 0;
     player->active = true;
 }
-void PlayerMove(Player* player){
+void PlayerMove(Player* player, Fruit* fruit){
     
     if (IsKeyPressed(KEY_W)){
         player->velocity = (Vector2){0, 0};
@@ -33,16 +34,21 @@ void PlayerMove(Player* player){
     player->position.y += player->velocity.y * GetFrameTime();
     player->position.x += player->velocity.x * GetFrameTime();
 
-    if (CollisionWithScreenPlayer(player)){
+    if (CollisionScreenPlayer(player)){
         player->active = false;
         player->position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
         player->velocity = (Vector2){0, 0};
     }
 
+    if (CheckCollisionCircleRec(fruit->position, fruit->size, (Rectangle){player->position.x, player->position.y, player->size.x, player->size.y})){
+        fruit->ate = true;
+        player->score += 1;
+    }
+
 }
 
-bool CollisionWithScreenPlayer(Player* player){
-    if ((player->position.x > GetScreenWidth()) || (player->position.x < 0) || (player->position.y < 0) || (player->position.y > GetScreenHeight())){
+bool CollisionScreenPlayer(Player* player){
+    if (((player->position.x + player->size.x) > GetScreenWidth()) || (player->position.x < 0) || (player->position.y < 0) || (player->position.y + player->size.y > GetScreenHeight())){
         return true;
     }
     else return false;

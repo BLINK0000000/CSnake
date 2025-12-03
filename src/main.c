@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "gameFunctions.h"
 #include "player.h"
+#include "fruit.h"
 
 #define FPS 180
 //TODO: Need to add game over state when colliding with screen
@@ -10,6 +11,7 @@ int main(){
     const int screenHeight = 450;
 
     Player player = {0};
+    Fruit fruit = {0};
 
     InitWindow(screenWidth, screenHeight, "CSnake");
 
@@ -17,10 +19,10 @@ int main(){
 
     SetTargetFPS(FPS);
 
-    InitGame(&player);
+    InitGame(&player, &fruit);
 
     while (!WindowShouldClose()){
-        UpdateDrawFrame(&player);    
+        UpdateDrawFrame(&player, &fruit);    
     }
 
     UnloadGame();
