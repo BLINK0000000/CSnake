@@ -17,3 +17,4 @@ void InitPlayer(Player* player);
 void PlayerMove(Player* player, Fruit* fruit);
 bool CollisionScreenPlayer(Player* player);
 void growPlayer(Player* player);
+void reset(Player* player);

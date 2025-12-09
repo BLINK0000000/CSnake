@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "raylib.h"
 #include "player.h"
 #include "fruit.h"
@@ -39,8 +40,22 @@ void PlayerMove(Player* player, Fruit* fruit){
 
     //TODO update all positions of each player entity, record the last position every frame
     for (int i = 1; i <= player[0].score + 1; ++i){
-        player[i].position.x = player[i-1].position.x + player[i].size.x;
-        player[i].position.y = player[i-1].position.y + player[i].size.y;
+        if (player[0].velocity.x > 0){
+            player[i].position.x = player[i - 1].position.x - player[i].size.x;
+            player[i].position.y = player[i - 1].position.y;
+        }
+        if (player[0].velocity.x < 0){
+            player[i].position.x = player[i - 1].position.x + player[i].size.x;
+            player[i].position.y = player[i - 1].position.y;
+        }
+        if (player[0].velocity.y > 0){
+            player[i].position.y = player[i - 1].position.y - player[i].size.y;
+            player[i].position.x = player[i - 1].position.x;
+        }
+        if (player[0].velocity.y < 0){
+            player[i].position.y = player[i - 1].position.y + player[i].size.y;
+            player[i].position.x = player[i - 1].position.x;
+        }
     }
 
     player[0].position.y += player[0].velocity.y * GetFrameTime();
@@ -48,8 +63,6 @@ void PlayerMove(Player* player, Fruit* fruit){
 
     if (CollisionScreenPlayer(player)){
         player[0].active = false;
-        player[0].position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
-        player[0].velocity = (Vector2){0, 0};
     }
 
     if (CheckCollisionCircleRec(fruit->position, fruit->size, (Rectangle){player->position.x, player->position.y, player->size.x, player->size.y})){
@@ -57,10 +70,34 @@ void PlayerMove(Player* player, Fruit* fruit){
         player[0].score += 1;
     }
 
+    if (!player[0].active){
+        reset(player);
+        player[0].active = true;
+    }
+
 }
 
 void GrowPlayer(Player* player){
     //TODO realloc array and add another player to array
+}
+
+void reset(Player* player){
+    Player *tempPlayer = (Player *)realloc(player, 2 * sizeof(Player));
+
+    if (tempPlayer == NULL){
+        printf("Memory reallocation failed");
+        exit(0);
+    }
+    else{
+        player = tempPlayer;
+        free(tempPlayer);
+        tempPlayer = NULL;
+    }
+
+    player[0].score = 0;
+    player[0].position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
+    player[0].velocity = (Vector2){0, 0};
+
 }
 
 bool CollisionScreenPlayer(Player* player){
