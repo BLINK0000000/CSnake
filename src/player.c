@@ -5,98 +5,109 @@
 #include "fruit.h"
 
 #define PLAYER_SPEED 250
+#define INITIAL_PLAYER_SIZE 2
 
 void InitPlayer(Player* player){
-    player[0].size = (Vector2){GetScreenWidth()/30, GetScreenWidth()/30};
-    player[0].position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
-    player[0].velocity = (Vector2){0, 0};
-    player[0].score = 0;
-    player[0].active = true;
+    player->size = (Vector2){GetScreenWidth()/30, GetScreenWidth()/30};
+    player->position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
+    player->velocity = (Vector2){0, 0};
+    player->score = 0;
+    player->active = true;
 
-    player[1].size = player[0].size;
-    player[1].position = player[0].position;
+    player[1].size = player->size;
+    player[1].position = player->position;
     player[1].velocity = (Vector2){0, 0};
     player[1].score = 0;
     player[1].active = true;
 }
-void PlayerMove(Player* player, Fruit* fruit){
+void PlayerMove(Player **player, Fruit* fruit){
     //TODO Player cannot change 180 degrees, only 90
-    if ((IsKeyPressed(KEY_W)) && (player->velocity.y == 0)){
-        player[0].velocity = (Vector2){0, 0};
-        player[0].velocity.y = PLAYER_SPEED * -1;
+    if ((IsKeyPressed(KEY_W)) && ((*player)->velocity.y == 0)){
+        (*player)->velocity = (Vector2){0, 0};
+        (*player)->velocity.y = PLAYER_SPEED * -1;
     }
-    if ((IsKeyPressed(KEY_S)) && (player->velocity.y == 0)){
-        player[0].velocity = (Vector2){0, 0};
-        player[0].velocity.y = PLAYER_SPEED;
+    if ((IsKeyPressed(KEY_S)) && ((*player)->velocity.y == 0)){
+        (*player)->velocity = (Vector2){0, 0};
+        (*player)->velocity.y = PLAYER_SPEED;
     }
-    if ((IsKeyPressed(KEY_A)) && (player->velocity.x == 0)){
-        player[0].velocity = (Vector2){0, 0};
-        player[0].velocity.x = PLAYER_SPEED * -1;
+    if ((IsKeyPressed(KEY_A)) && ((*player)->velocity.x == 0)){
+        (*player)->velocity = (Vector2){0, 0};
+        (*player)->velocity.x = PLAYER_SPEED * -1;
     }
-    if ((IsKeyPressed(KEY_D)) && (player->velocity.x == 0)){
-        player[0].velocity = (Vector2){0, 0};
-        player[0].velocity.x = PLAYER_SPEED;
+    if ((IsKeyPressed(KEY_D)) && ((*player)->velocity.x == 0)){
+        (*player)->velocity = (Vector2){0, 0};
+        (*player)->velocity.x = PLAYER_SPEED;
     } 
 
     //TODO update all positions of each player entity, record the last position every frame
-    for (int i = 1; i <= player[0].score + 1; ++i){
-        if (player[0].velocity.x > 0){
-            player[i].position.x = player[i - 1].position.x - player[i].size.x;
-            player[i].position.y = player[i - 1].position.y;
+    // Update in reverse order 
+    for (int i = ((*player)->score) + 1; i > 0; --i){
+        if ((*player)->velocity.x > 0){
+            (*player)[i].position.x = (*player)[i - 1].position.x - (*player)->size.x;
+            (*player)[i].position.y = (*player)[i - 1].position.y;
         }
-        if (player[0].velocity.x < 0){
-            player[i].position.x = player[i - 1].position.x + player[i].size.x;
-            player[i].position.y = player[i - 1].position.y;
+        if ((*player)->velocity.x < 0){
+            (*player)[i].position.x = (*player)[i - 1].position.x + (*player)->size.x;
+            (*player)[i].position.y = (*player)[i - 1].position.y;
         }
-        if (player[0].velocity.y > 0){
-            player[i].position.y = player[i - 1].position.y - player[i].size.y;
-            player[i].position.x = player[i - 1].position.x;
+        if ((*player)->velocity.y > 0){
+            (*player)[i].position.y = (*player)[i - 1].position.y - (*player)->size.y;
+            (*player)[i].position.x = (*player)[i - 1].position.x;
         }
-        if (player[0].velocity.y < 0){
-            player[i].position.y = player[i - 1].position.y + player[i].size.y;
-            player[i].position.x = player[i - 1].position.x;
+        if ((*player)->velocity.y < 0){
+            (*player)[i].position.y = (*player)[i - 1].position.y + (*player)->size.y;
+            (*player)[i].position.x = (*player)[i - 1].position.x;
         }
     }
 
-    player[0].position.y += player[0].velocity.y * GetFrameTime();
-    player[0].position.x += player[0].velocity.x * GetFrameTime();
+    (*player)->position.y += (*player)->velocity.y * GetFrameTime();
+    (*player)->position.x += (*player)->velocity.x * GetFrameTime();
 
-    if (CollisionScreenPlayer(player)){
-        player[0].active = false;
+    if (CollisionScreenPlayer(*player)){
+        (*player)->active = false;
     }
 
-    if (CheckCollisionCircleRec(fruit->position, fruit->size, (Rectangle){player->position.x, player->position.y, player->size.x, player->size.y})){
+    if (CheckCollisionCircleRec(fruit->position, fruit->size, (Rectangle){(*player)->position.x, (*player)->position.y, (*player)->size.x, (*player)->size.y})){
         fruit->ate = true;
-        player[0].score += 1;
+        (*player)->score += 1;
+        GrowPlayer(player);
     }
 
-    if (!player[0].active){
+    if (!(*player)->active){
         reset(player);
-        player[0].active = true;
+        (*player)->active = true;
     }
 
 }
 
-void GrowPlayer(Player* player){
+void GrowPlayer(Player **player){
     //TODO realloc array and add another player to array
+    Player *tempGrowth = (Player *)realloc(*player, (INITIAL_PLAYER_SIZE + (*player)->score - 1) * sizeof(Player));
+
+    if (tempGrowth == NULL){
+        printf("Growth reallocation failed");
+        exit(0);
+    }
+    else{
+        *player = tempGrowth;
+    }
+
 }
 
-void reset(Player* player){
-    Player *tempPlayer = (Player *)realloc(player, 2 * sizeof(Player));
+void reset(Player **player){
+    Player *tempPlayer = (Player *)realloc(*player, INITIAL_PLAYER_SIZE * sizeof(Player));
 
     if (tempPlayer == NULL){
         printf("Memory reallocation failed");
         exit(0);
     }
     else{
-        player = tempPlayer;
-        free(tempPlayer);
-        tempPlayer = NULL;
+        *player = tempPlayer;
     }
 
-    player[0].score = 0;
-    player[0].position = (Vector2){GetScreenWidth()/2 - player->size.x/2, GetScreenHeight()/2 - player->size.y/2};
-    player[0].velocity = (Vector2){0, 0};
+    (*player)->score = 0;
+    (*player)->position = (Vector2){GetScreenWidth()/2 - (*player)->size.x/2, GetScreenHeight()/2 - (*player)->size.y/2};
+    (*player)->velocity = (Vector2){0, 0};
 
 }
 

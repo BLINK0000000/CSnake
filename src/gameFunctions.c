@@ -6,22 +6,22 @@
 #include <stdlib.h>
 #include "fruit.h"
 
-void UpdateDrawFrame(Player* player, Fruit* fruit){
+void UpdateDrawFrame(Player **player, Fruit* fruit){
     UpdateGame(player, fruit);
-    DrawGame(player, fruit);
+    DrawGame(*player, fruit);
 }
 
-void UpdateGame(Player* player, Fruit* fruit){
+void UpdateGame(Player **player, Fruit* fruit){
     PlayerMove(player, fruit);
     PlaceFruit(fruit);
 }
 
-void DrawGame(Player* player, Fruit* fruit){
+void DrawGame(Player *player, Fruit* fruit){
     BeginDrawing();
         ClearBackground(RAYWHITE);
         
-        for (int i = 0; i <= player[0].score; ++i){
-            DrawRectangle(player[i].position.x, player[i].position.y, player[i].size.x, player[i].size.y, BLUE);
+        for (int i = 0; i <= player->score; ++i){
+            DrawRectangle(player[i].position.x, player[i].position.y, player->size.x, player->size.y, BLUE);
         }
         
         DrawCircle(fruit->position.x, fruit->position.y, fruit->size, GREEN);

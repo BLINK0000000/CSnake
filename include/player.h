@@ -14,7 +14,7 @@ typedef struct Player{
 }Player;
 
 void InitPlayer(Player* player);
-void PlayerMove(Player* player, Fruit* fruit);
+void PlayerMove(Player **player, Fruit* fruit);
 bool CollisionScreenPlayer(Player* player);
-void growPlayer(Player* player);
-void reset(Player* player);
+void GrowPlayer(Player **player);
+void reset(Player **player);
