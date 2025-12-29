@@ -11,6 +11,7 @@ target_sources(CSnake
         src/gameFunctions.c
         src/player.c
         src/fruit.c
+        src/deque.c
     
     PUBLIC
         FILE_SET HEADERS
@@ -20,6 +21,7 @@ target_sources(CSnake
             include/gameFunctions.h
             include/player.h
             include/fruit.h
+            include/deque.h
 )
 
 target_link_libraries(CSnake

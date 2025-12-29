@@ -32,10 +32,6 @@ int main(){
         UpdateDrawFrame(&player, &fruit);    
     }
 
-    for (int i = 0; i <= player->score; ++i){
-        printf("Position: %f\n", player[i].position.x);
-    }
-
     UnloadGame();
     free(player);
     player = NULL;
