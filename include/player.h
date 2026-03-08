@@ -4,17 +4,18 @@
 
 #include "raylib.h"
 #include "fruit.h"
+#include "deque.h"
 
 typedef struct Player{
-    Vector2 position;
-    Vector2 velocity;
+    Deque deque;
     Vector2 size;
+    Vector2 position;
     int score;
     bool active;
 }Player;
 
 void InitPlayer(Player* player);
-void PlayerMove(Player **player, Fruit* fruit);
+void PlayerMove(Player *player, Fruit* fruit);
 bool CollisionScreenPlayer(Player* player);
-void GrowPlayer(Player **player);
-void reset(Player **player);
+void GrowPlayer(Player *player);
+void reset(Player *player);

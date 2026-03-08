@@ -11,13 +11,7 @@ int main(){
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    //Player player = {0};
-    Player *player = (Player *)malloc(sizeof(Player) * 2);
-
-    if (player == NULL){
-        printf("Memory allocation of player failed");
-        exit(0);
-    }
+    Player player = {0};
     Fruit fruit = {0};
 
     InitWindow(screenWidth, screenHeight, "CSnake");
@@ -26,15 +20,13 @@ int main(){
 
     SetTargetFPS(FPS);
 
-    InitGame(player, &fruit);
+    InitGame(&player, &fruit);
 
     while (!WindowShouldClose()){
         UpdateDrawFrame(&player, &fruit);    
     }
 
     UnloadGame();
-    free(player);
-    player = NULL;
     CloseWindow();
 
     return 0;

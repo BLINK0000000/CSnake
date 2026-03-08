@@ -11,13 +11,11 @@ Node* createNode(int data){
     return newNode;
 }
 
-Deque* createDeque(){
-    Deque *deque = (Deque *)malloc(sizeof(Deque));
+void initDeque(Deque* deque){
     deque->front = NULL;
     deque->rear = NULL;
     deque->size = 0;
 
-    return deque;
 }
 
 int isEmpty(Deque* deque){
@@ -28,7 +26,7 @@ int isEmpty(Deque* deque){
 }
 
 void insertFront(Deque* deque, int data){
-    Node *newNode = createNode(data);
+    Node* newNode = createNode(data);
 
     if (isEmpty(deque)){
         deque->front = newNode;
@@ -44,7 +42,7 @@ void insertFront(Deque* deque, int data){
 }
 
 void insertRear(Deque* deque, int data){
-    Node *newNode = createNode(data);
+    Node* newNode = createNode(data);
 
     if (isEmpty(deque)){
         deque->rear = newNode;
@@ -74,6 +72,26 @@ void deleteFront(Deque* deque){
             deque->rear = NULL;
         }
         
+        free(temp);
+        deque->size--;
+    }
+}
+
+void deleteRear(Deque* deque){
+    if (isEmpty(deque)){
+        printf("Underflow");
+        return;
+    }
+    else {
+        Node* temp = deque->rear;
+        deque->rear = deque->rear->prev;
+        if (deque->rear != NULL){
+            deque->rear->next = NULL;
+        }
+        else {
+            deque->front = NULL;
+        }
+
         free(temp);
         deque->size--;
     }
