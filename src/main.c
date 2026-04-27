@@ -5,7 +5,7 @@
 #include "player.h"
 #include "fruit.h"
 
-#define FPS 180
+#define FPS 10
 //TODO: Need to add game over state when colliding with screen
 int main(){
     const int screenWidth = 800;

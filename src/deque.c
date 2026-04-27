@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "deque.h"
+#include "raylib.h"
 
-Node* createNode(int data){
+Node* createNode(Vector2 data){
     Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->data = data;
+    newNode->position = data;
     newNode->next = NULL;
     newNode->prev = NULL;
 
@@ -25,7 +26,7 @@ int isEmpty(Deque* deque){
     else{return 0;}
 }
 
-void insertFront(Deque* deque, int data){
+void insertFront(Deque* deque, Vector2 data){
     Node* newNode = createNode(data);
 
     if (isEmpty(deque)){
@@ -41,7 +42,7 @@ void insertFront(Deque* deque, int data){
     deque->size++;
 }
 
-void insertRear(Deque* deque, int data){
+void insertRear(Deque* deque, Vector2 data){
     Node* newNode = createNode(data);
 
     if (isEmpty(deque)){

@@ -9,13 +9,13 @@
 typedef struct Player{
     Deque deque;
     Vector2 size;
-    Vector2 position;
+    Vector2 velocity;
     int score;
     bool active;
 }Player;
 
 void InitPlayer(Player* player);
-void PlayerMove(Player *player, Fruit* fruit);
+void PlayerMove(Player* player, Fruit* fruit);
 bool CollisionScreenPlayer(Player* player);
-void GrowPlayer(Player *player);
+void GrowPlayer(Player* player, Vector2 pos);
 void reset(Player *player);
