@@ -19,6 +19,7 @@ void InitPlayer(Player* player){
     player->active = true;
 }
 
+// Must be a better way to do this, maybe change whole design to be a state machine so it's all easier to manage
 void PlayerMove(Player *player, Fruit* fruit){
     
     if ((IsKeyPressed(KEY_W)) && (player->velocity.y == 0)){
@@ -60,7 +61,6 @@ void PlayerMove(Player *player, Fruit* fruit){
             deleteRear(&player->deque);
     }
     
-    
 
     if (CollisionScreenPlayer(player)){
         player->active = false;
@@ -71,7 +71,7 @@ void PlayerMove(Player *player, Fruit* fruit){
         player->score += 1;
 
         if (player->velocity.x == 1){
-            GrowPlayer(player, (Vector2){player->deque.rear->position.x - player->size.x, player->deque.rear->position.y});
+            GrowPlayer(player, (Vector2){player->deque.rear->position.x - player->size.x, player->deque.rear->position.y}); // maybe change it so it multiplies by velocity, and have an initial velocity when respawning
         }
         if (player->velocity.x == -1){
             GrowPlayer(player, (Vector2){player->deque.rear->position.x + player->size.x, player->deque.rear->position.y});
