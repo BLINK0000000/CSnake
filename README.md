@@ -8,12 +8,16 @@ Eating a fruit grows the snake by one block and is done by inserting another nod
 ![til](./ReadmeAssets/CSnakeTest.gif)
 
 ## Controls
-W - up
-A - left
-S - down
-D - right
+W - Up\ 
+A - Left\
+S - Down\
+D - Right\
 
 Can only move orthogonal to current direction, tap to change directions.
+
+## Installation
+- Install Raylib and Cmake.
+- Clone repo and it should be ready to go.
 
 ## Issues
 - Unfinished
