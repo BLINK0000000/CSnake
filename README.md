@@ -16,11 +16,12 @@ D - Right
 Can only move orthogonal to current direction, tap to change directions.
 
 ## Installation
-- Install Raylib and Cmake.
-- Clone repo and it should be ready to go.
+1. Install Raylib and Cmake.
+2. Clone repo.
+3. Build and run.
 
 ## Issues
 - Unfinished
 - Missing game over screen
 - Snake does not collide with screen bounds
-- Probably more than I can think of right now
+- Probably more isues than I can think of right now
