@@ -11,7 +11,7 @@ Eating a fruit grows the snake by one block and is done by inserting another nod
 W - Up\
 A - Left\
 S - Down\
-D - Right\
+D - Right
 
 Can only move orthogonal to current direction, tap to change directions.
 
