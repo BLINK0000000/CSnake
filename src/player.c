@@ -21,9 +21,10 @@ void InitPlayer(Player* player){
 
 // Must be a better way to do this, maybe change whole design to be a state machine so it's all easier to manage
 void PlayerMove(Player *player, Fruit* fruit){
-    
-    if ((IsKeyPressed(KEY_W)) && (player->velocity.y == 0)){
+    // define an alias for the long as position variables
+    Vector2* playerPos = &player->deque.front->position; 
 
+    if ((IsKeyPressed(KEY_W)) && (player->velocity.y == 0)){
         player->velocity = (Vector2){0, 0};
         
         player->velocity.y = -1;
@@ -45,19 +46,19 @@ void PlayerMove(Player *player, Fruit* fruit){
     } 
 
     if (player->velocity.x == 1){
-            insertFront(&player->deque, (Vector2){player->deque.front->position.x + player->size.x, player->deque.front->position.y});
+            insertFront(&player->deque, (Vector2){playerPos->x + player->size.x, playerPos->y});
             deleteRear(&player->deque);
     }
     if (player->velocity.x == -1){
-            insertFront(&player->deque, (Vector2){player->deque.front->position.x - player->size.x, player->deque.front->position.y});
+            insertFront(&player->deque, (Vector2){playerPos->x - player->size.x, playerPos->y});
             deleteRear(&player->deque);
     }
     if (player->velocity.y == 1){
-            insertFront(&player->deque, (Vector2){player->deque.front->position.x, player->deque.front->position.y + player->size.y});
+            insertFront(&player->deque, (Vector2){playerPos->x, playerPos->y + player->size.y});
             deleteRear(&player->deque);
     }
     if (player->velocity.y == -1){
-            insertFront(&player->deque, (Vector2){player->deque.front->position.x, player->deque.front->position.y - player->size.y});
+            insertFront(&player->deque, (Vector2){playerPos->x, playerPos->y - player->size.y});
             deleteRear(&player->deque);
     }
     
@@ -66,6 +67,7 @@ void PlayerMove(Player *player, Fruit* fruit){
         player->active = false;
     }
 
+    // Dunno why but putting the alias in this condition breaks it
     if (CheckCollisionCircleRec(fruit->position, fruit->size, (Rectangle){player->deque.front->position.x, player->deque.front->position.y, player->size.x, player->size.y})){
         fruit->ate = true;
         player->score += 1;
